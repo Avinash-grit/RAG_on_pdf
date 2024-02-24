@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: PDFRAG
+  namespace: avinash
+spec:
+  gateways:
+  - gateway/mach1 
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        prefix: /avinash/RAG
+    route:
+    - destination:
+        host: RAG.avinash.RAG.local 
+        port:
+          number: 8501
