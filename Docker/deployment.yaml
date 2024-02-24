@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: PDFRAG
+  labels:
+    app: RAG
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: RAG
+  template:
+    metadata:
+      labels:
+        app: RAG
+    spec:
+      containers:
+      - name: RAG-container
+        image: hpcregistry.hpc.ford.com/avinash/lqdt_ner:23FebApr24
+        imagePullPolicy: Always
+        command: ["streamlit"]
+        args: ["run","/code/src/streamlit_app.py", "--server.port", "8501", "--server.enableCORS", "false", "--server.baseUrlPath", "/avinash/RAG"]
+        #args: ["hello", "--server.port", "8501", "--server.enableCORS", "false", "--server.baseUrlPath", "/avinash/RAG"]
+        resources:
+          requests:
+            memory: "8G"
+            cpu: "2"
+            nvidia.com/gpu: 1
+          limits:
+            memory: "16G"
+            cpu: "2"
+            nvidia.com/gpu: 1
+        volumeMounts:
+            - name: RAG-storage
+              mountPath: /code
+        ports:
+          - containerPort: 8501
+            name: http-streamlit
+      volumes:
+        - name: RAG-storage
+          persistentVolumeClaim:
+            claimName: RAG-storage-volume
