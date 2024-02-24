@@ -15,7 +15,7 @@ config.max_answer_len= 1024
 
 
 DB_FAISS_PATH = 'vectorstore/db_faiss'
-prompt_file_path = 'aim_desc_.txt'
+prompt_file_path = 'desc_.txt'
 # Define prompts as a global variable
 prompts = []
 
@@ -91,11 +91,6 @@ def main():
 
 
         
-        #def conversational_chat(query):
-            #result = chain({"question": query, "chat_history": []})
-            #return result["answer"]
-
-
         # Set up the container for user input
         container = st.container()
 
